@@ -4,8 +4,8 @@ resource "local_file" "ansible_host" {
       aws_instance.k8s
     ]
 
-    count       = var.n
-    content     = "[Master_Node]\n${aws_instance.k8s.public_ip}\n\n[Worker_Node]\n${join("\n", azurerm_linux_virtual_machine.myk8svm.*.public_ip_address)}"
+    count       = 2
+    content     = "[Master_Node]\n${aws_instance.k8s.public_ip}\n\n[Worker_Node]\n${join("\n", aws_instance.myk8svm.*.public_ip)}"
     filename    = "inventory"
   }
 
@@ -30,5 +30,5 @@ output "Master_Node_IP" {
 }
 
 output "Worker_Node_IP" {
-  value = join(", ", azurerm_linux_virtual_machine.myk8svm.*.public_ip_address)
+  value = join(", ", aws_instance.myk8svm.*.public_ip)
 }

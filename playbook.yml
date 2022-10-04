@@ -6,6 +6,6 @@
 
 - name: Configure K8s Worker Node
   hosts: Worker_Node
-  remote_user: ansible
+  remote_user: ec2-user
   roles:
     - role: kubernetes_worker

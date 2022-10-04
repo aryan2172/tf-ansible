@@ -1,5 +1,5 @@
 provider "aws" {
-  profile = "aditya"
+  profile = ""
   region  = "ap-south-1"
 }
 
@@ -101,5 +101,21 @@ resource "aws_instance" "k8s" {
 
   tags = {
     Name = "Master Node"
+  }
+}
+
+
+
+resource "aws_instance" "myk8svm" {
+  count                 = 2
+  ami                   = "ami-010aff33ed5991201"
+  instance_type         = "t2.micro"
+  key_name	            = aws_key_pair.terraformkey.key_name
+  associate_public_ip_address = true
+  subnet_id             = aws_subnet.public_subnet.id
+  vpc_security_group_ids      = [ aws_security_group.allow_ssh_http.id ] 
+
+  tags = {
+    Name = "Worker_Node"
   }
 }
