@@ -108,7 +108,7 @@ resource "aws_instance" "k8s" {
 
 
 resource "aws_instance" "myk8svm" {
-  count                 = 0
+  count                 = 1
 #  ami                   = "ami-010aff33ed5991201"
   ami                   = "ami-00c7878b181453e4d"
   instance_type         = "t2.micro"
