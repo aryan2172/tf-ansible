@@ -92,7 +92,8 @@ resource "aws_security_group" "allow_ssh_http" {
 }
 
 resource "aws_instance" "k8s" {
-  ami                   = "ami-010aff33ed5991201"
+#  ami                   = "ami-010aff33ed5991201"
+  ami                   = "ami-00c7878b181453e4d"
   instance_type         = "t2.micro"
   key_name	            = aws_key_pair.terraformkey.key_name
   associate_public_ip_address = true
@@ -107,8 +108,9 @@ resource "aws_instance" "k8s" {
 
 
 resource "aws_instance" "myk8svm" {
-  count                 = 2
-  ami                   = "ami-010aff33ed5991201"
+  count                 = 0
+#  ami                   = "ami-010aff33ed5991201"
+  ami                   = "ami-00c7878b181453e4d"
   instance_type         = "t2.micro"
   key_name	            = aws_key_pair.terraformkey.key_name
   associate_public_ip_address = true
