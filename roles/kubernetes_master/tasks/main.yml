@@ -34,6 +34,7 @@
 
 - name: Apply new settings
   command: sudo sysctl --system
+  register: result
 
 - name: install containerd
   shell: |
