@@ -35,7 +35,10 @@
 - name: Apply new settings
   command: sudo sysctl --system
   register: result
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9e5ccf17811ed96efc478b153a461ef1b69fe6d5
 - name: install containerd
   shell: |
           sudo apt-get update && sudo apt-get install -y containerd
