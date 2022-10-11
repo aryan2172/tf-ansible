@@ -5,7 +5,7 @@ provider "aws" {
 
 # Provides EC2 key pair
 resource "aws_key_pair" "terraformkey" {
-  key_name   = "terraform_key"
+  key_name   = "${var.name}_key"
   public_key = tls_private_key.k8s_ssh.public_key_openssh
 }
 
@@ -15,7 +15,7 @@ resource "aws_vpc" "k8s_vpc" {
   enable_dns_support =true
 
   tags = {
-    Name = "K8S VPC"
+    Name = "${var.name}citizen-K8S-VPC"
   }
 }
 
@@ -26,7 +26,7 @@ resource "aws_subnet" "public_subnet" {
   availability_zone = "ap-south-1a"
 
   tags = {
-    Name = "Public Subnet"
+    Name = "${var.name}citizen-Public-Subnet"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_internet_gateway" "k8s_gw" {
   vpc_id = aws_vpc.k8s_vpc.id
 
   tags = {
-    Name = "K8S GW"
+    Name = "${var.name}citizen-K8S-GW"
   }
 }
 
@@ -47,7 +47,7 @@ resource "aws_route_table" "k8s_route" {
     }
         
         tags = {
-            Name = "K8S Route"
+            Name = "${var.name}citizen-K8S-Route"
         }
 }
 
@@ -58,7 +58,7 @@ resource "aws_route_table_association" "k8s_asso" {
 
 # Create security group
 resource "aws_security_group" "allow_ssh_http" {
-  name        = "Web_SG"
+  name        = "${var.name}citizen-Web_SG"
   description = "Allow SSH and HTTP inbound traffic"
   vpc_id      = aws_vpc.k8s_vpc.id
 
@@ -94,30 +94,30 @@ resource "aws_security_group" "allow_ssh_http" {
 resource "aws_instance" "k8s" {
 #  ami                   = "ami-010aff33ed5991201"
   ami                   = "ami-00c7878b181453e4d"
-  instance_type         = "t2.micro"
+  instance_type         = var.instance_type
   key_name	            = aws_key_pair.terraformkey.key_name
   associate_public_ip_address = true
   subnet_id             = aws_subnet.public_subnet.id
   vpc_security_group_ids      = [ aws_security_group.allow_ssh_http.id ] 
 
   tags = {
-    Name = "Master Node"
+    Name = "${var.name}-masternode"
   }
 }
 
 
 
 resource "aws_instance" "myk8svm" {
-  count                 = 1
+  count                 = var.worker_nodes
 #  ami                   = "ami-010aff33ed5991201"
   ami                   = "ami-00c7878b181453e4d"
-  instance_type         = "t2.micro"
+  instance_type         = var.instance_type
   key_name	            = aws_key_pair.terraformkey.key_name
   associate_public_ip_address = true
   subnet_id             = aws_subnet.public_subnet.id
   vpc_security_group_ids      = [ aws_security_group.allow_ssh_http.id ] 
 
   tags = {
-    Name = "Worker_Node"
+    Name = "${var.name}-workernode"
   }
 }

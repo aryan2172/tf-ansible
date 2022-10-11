@@ -7,6 +7,6 @@ resource "tls_private_key" "k8s_ssh" {
 # Create local key
 resource "local_file" "keyfile" {
     content         = tls_private_key.k8s_ssh.private_key_pem
-    filename        = "terraform_key.pem"
+    filename        = "${var.name}.pem"
     file_permission = "0400"
 }
