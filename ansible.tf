@@ -17,11 +17,19 @@ resource "null_resource" "null1" {
 
   provisioner "local-exec" {
     command = "sleep 60"
-    }
+  }
 
   provisioner "local-exec" {
-    command = "ansible-playbook playbook.yml"
-    }
+    command = "ansible-playbook playbook.yml --private-key=${var.name}.pem"
+  }
+
+  provisioner "local-exec" {
+    command = "sleep 60"
+  }
+
+  provisioner "local-exec" {
+    command = "ansible-playbook longhorn.yml --private-key=${var.name}.pem"
+  }
 
 }
 
