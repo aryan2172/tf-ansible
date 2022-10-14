@@ -1,15 +1,15 @@
 variable "worker_nodes"{
-    type = "number"
+    type = number
     default = "3"
 }
 
 variable "name"{
-    type = "string"
+    type = string
     default = "translab"
 }
 
 variable "instance_type"{
-    type = "string"
+    type = string
     default = "t2.micro"
 }
 

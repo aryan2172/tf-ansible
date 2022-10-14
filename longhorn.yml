@@ -1,25 +1,11 @@
 - name: Longhorn setup 
-  hosts: all
+  hosts: Worker_Node
+  remote_user: ubuntu 
   tasks:
     - name: install pre-requisites
       shell: |
-              apt-get install open-iscsi
-              apt-get install nfs-common
-      delegate_to: Worker_Node
+              sudo apt-get install -y open-iscsi
+              sudo apt-get install -y nfs-common
     
-    - name: install helm on master Node
-      shell: |
-              echo 'export VERIFY_CHECKSUM=false' >> /ubuntu/.bashrc
-              source /ubuntu/.bashrc
-              curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-              chmod 700 get_helm.sh
-      delegate_to: Master_Node
-
-    - name: installing longhorn with helm
-      shell: |
-              helm repo add longhorn https://charts.longhorn.io
-              helm repo update
-              helm install longhorn longhorn/longhorn --namespace longhorn-system --create-namespace
-      delegate_to: Master_Node
 
 

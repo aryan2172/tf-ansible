@@ -1,0 +1,10 @@
+- name: Installing Prometheus
+  hosts: Master_Node
+  vars_files:
+   - vars.yml
+  tasks:
+    - name: copy dashboard file
+      copy: src=./assets/dashboard.json dest=/assets/ mode=0777
+    
+    - name: copy and execute the installation script
+      script: ./scripts/prometheus.sh {{ master_ip }} {{ name }} 

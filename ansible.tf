@@ -9,6 +9,16 @@ resource "local_file" "ansible_host" {
     filename    = "inventory"
   }
 
+resource "local_file" "ansible_vars"{
+  
+    depends_on = [
+      aws_instance.k8s
+    ]
+
+    content   = "master_ip: ${aws_instance.k8s.public_ip} \n name:${var.name}"
+    filename  = "vars.yml" 
+}
+
 resource "null_resource" "null1" {
 
     depends_on = [
@@ -29,6 +39,10 @@ resource "null_resource" "null1" {
 
   provisioner "local-exec" {
     command = "ansible-playbook longhorn.yml --private-key=${var.name}.pem"
+  }
+
+  provisioner "local-exec" {
+    command = "ansible-playbook longhorn-master.yml --private-key=${var.name}.pem"
   }
 
 }
