@@ -45,6 +45,13 @@ resource "null_resource" "null1" {
     command = "ansible-playbook longhorn-master.yml --private-key=${var.name}.pem"
   }
 
+#  provisioner "local-exec" {
+#    command = "sleep 60"
+#  }
+
+#  provisioner "local-exec" {
+#    command = "ansible-playbook kubeflow.yml --private-key=${var.name}.pem"
+#  }
 }
 
 output "Master_Node_IP" {

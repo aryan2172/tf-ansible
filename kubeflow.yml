@@ -1,0 +1,10 @@
+- name: Installing Kubeflow
+  hosts: Master_Node
+  tasks:
+    - name: copy masnifests folder
+      synchronize: 
+        src: ./assets/manifests 
+        dest: /assets/
+
+    - name: copy and execute the installation script
+      script: ./scripts/install-kubeflow.sh aryan.choudhary@translabtechnologies.com translab

@@ -103,6 +103,12 @@ resource "aws_instance" "k8s" {
   tags = {
     Name = "${var.name}-masternode"
   }
+  
+  root_block_device {
+    delete_on_termination = true
+    volume_size = 20
+    volume_type = "gp2"
+  }
 }
 
 
@@ -119,5 +125,11 @@ resource "aws_instance" "myk8svm" {
 
   tags = {
     Name = "${var.name}-workernode"
+  }
+
+  root_block_device {
+    delete_on_termination = true
+    volume_size = 20
+    volume_type = "gp2"
   }
 }
